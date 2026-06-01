@@ -2,6 +2,7 @@ const express = require('express')
 const Admin = require('../models/Admin')
 const router = express.Router();
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 
 router.post('/register', async(req,res)=>{
@@ -24,14 +25,16 @@ router.post('/login', async(req,res)=>{
         return res.json({msg:"Invalid Credentials"});
 
     }
-    if(a.password==password){
-        const token = jwt.sign({id:a._id},process.env.jWT_SECRET,{expiresIn:"30d"})
+    const ok = await bcrypt.compare(password, a.password)
+    if(ok){
+        const token = jwt.sign({id:a._id},process.env.JWT_SECRET,{expiresIn:"30d"})
         return res.json({
             msg:"Login Successfully",
             id:a._id,
             token:token
-        
+
         })
     }
+    return res.json({msg:"Invalid Credentials"});
 })
 module.exports= router;

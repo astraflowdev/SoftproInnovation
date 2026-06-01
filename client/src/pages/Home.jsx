@@ -96,8 +96,8 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const [catRes, prodRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/category/home'),
-          axios.get('http://localhost:5000/api/product/products'),
+          axios.get('/api/category/home'),
+          axios.get('/api/product/products'),
         ])
         setCategories(catRes.data.data || [])
         setProducts(prodRes.data.data || [])
@@ -227,7 +227,7 @@ const Home = () => {
                       <div className="si-cat-img-wrap">
                         {cat.picture ? (
                           <img
-                            src={`http://localhost:5000/api/category/${cat.picture.replace(/\\/g, '/').split('/').pop()}`}
+                            src={`/api/category/${cat.picture.replace(/\\/g, '/').split('/').pop()}`}
                             alt={cat.category}
                             className="si-cat-img"
                           />
@@ -285,7 +285,7 @@ const Home = () => {
                     <div className="si-prod-img-wrap">
                       {product.images ? (
                         <img
-                          src={`http://localhost:5000/api/product/${product.images.replace(/\\/g, '/').split('/').pop()}`}
+                          src={`/api/product/${product.images.replace(/\\/g, '/').split('/').pop()}`}
                           alt={product.name}
                           className="si-prod-img"
 

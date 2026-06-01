@@ -10,7 +10,7 @@ const Product = () => {
 
     const handlefeatch = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/product')
+            const res = await axios.get('/api/product')
             setData(res.data.data)
             console.log(res);
 
@@ -29,7 +29,7 @@ const Product = () => {
 
      const handleDelete = async(id)=>{
         try{
-            const res = await axios.delete(`http://localhost:5000/api/product/${id}`);
+            const res = await axios.delete(`/api/product/${id}`);
             alert(res.data.msg)
             handlefeatch();
         }

@@ -10,7 +10,7 @@ const Inventory = () => {
   const fetchProducts = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('http://localhost:5000/api/product')
+      const res = await axios.get('/api/product')
       setProducts(res.data.data || [])
     } catch (err) {
       console.error('Error fetching inventory products:', err)
@@ -62,7 +62,7 @@ const Inventory = () => {
 
     setUpdatingId(productId)
     try {
-      const res = await axios.patch(`http://localhost:5000/api/product/${productId}/stock`, {
+      const res = await axios.patch(`/api/product/${productId}/stock`, {
         stock: p.stock,
         stockStatus: p.stockStatus
       })

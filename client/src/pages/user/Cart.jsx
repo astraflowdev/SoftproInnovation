@@ -12,7 +12,7 @@ const Cart = () => {
   /* ── Fetch cart ── */
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cart/${userId}`)
+      const res = await axios.get(`/api/cart/${userId}`)
       setItems(res.data.data || [])
     } catch (err) {
       console.error(err)
@@ -27,7 +27,7 @@ const Cart = () => {
   const handleIncrease = async (cartId) => {
     setUpdating(cartId)
     try {
-      const res = await axios.patch(`http://localhost:5000/api/cart/quantity/increase/${cartId}`)
+      const res = await axios.patch(`/api/cart/quantity/increase/${cartId}`)
       if (res.data.msg === 'ONLY 5 QUANTITY ALLOWED') {
         alert('Maximum 5 quantity allowed!')
       } else {
@@ -48,7 +48,7 @@ const Cart = () => {
   const handleDecrease = async (cartId) => {
     setUpdating(cartId)
     try {
-      const res = await axios.patch(`http://localhost:5000/api/cart/quantity/decrease/${cartId}`)
+      const res = await axios.patch(`/api/cart/quantity/decrease/${cartId}`)
       if (!res.data.msg.includes('not less than 1')) {
         const updatedQty = res.data.data?.quantity
         if (updatedQty !== undefined) {
@@ -67,7 +67,7 @@ const Cart = () => {
   const handleRemove = async (cartId) => {
     setUpdating(cartId)
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${cartId}`)
+      await axios.delete(`/api/cart/${cartId}`)
       setItems(prev => prev.filter(item => item._id !== cartId))
     } catch (err) { console.error(err) }
     finally { setUpdating(null) }
@@ -139,7 +139,7 @@ const Cart = () => {
                     <div className="cart-item-img">
                       {product.images ? (
                         <img
-                          src={`http://localhost:5000/uploads/${product.images}`}
+                          src={`/uploads/${product.images}`}
                           alt={product.name}
                           onError={e => { e.currentTarget.style.display = 'none' }}
                         />

@@ -60,7 +60,7 @@ const Register = () => {
     setLoading(true)
     setError('')
     try {
-      await axios.post('http://localhost:5000/api/user/register', formData)
+      await axios.post('/api/user/register', formData)
       alert('Account created successfully! Please sign in.')
       navigate('/login')
     } catch (err) {

@@ -16,13 +16,13 @@ const CategoryDetails = () => {
     const fetchData = async () => {
       try {
         // 1. Category info fetch karo
-        const catRes = await axios.get(`http://localhost:5000/api/category`)
+        const catRes = await axios.get(`/api/category`)
         const allCats = catRes.data.data || []
         const cat = allCats.find(c => c._id === id)
         setCategory(cat || null)
 
         // 2. Sare active products fetch karo aur category se filter karo
-        const prodRes = await axios.get(`http://localhost:5000/api/product/`)
+        const prodRes = await axios.get(`/api/product/`)
         const allProds = prodRes.data.data || []
         const filtered = allProds.filter(p => {
           const catId = typeof p.category === 'object' ? p.category?._id : p.category
@@ -48,14 +48,14 @@ const CategoryDetails = () => {
     if (!img) return null
     if (img.startsWith('http')) return img
     const filename = img.replace(/\\/g, '/').split('/').pop()
-    return `http://localhost:5000/api/product/${filename}`
+    return `/api/product/${filename}`
   }
 
   const getCatImage = (pic) => {
     if (!pic) return null
     if (pic.startsWith('http')) return pic
     const filename = pic.replace(/\\/g, '/').split('/').pop()
-    return `http://localhost:5000/api/category/${filename}`
+    return `/api/category/${filename}`
   }
 
   return (

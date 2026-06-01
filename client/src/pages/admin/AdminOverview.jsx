@@ -16,11 +16,11 @@ const AdminOverview = () => {
     const fetchStats = async () => {
       try {
         const [prodRes, catRes, orderRes, userRes, compRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/product'),
-          axios.get('http://localhost:5000/api/category'),
-          axios.get('http://localhost:5000/api/order/orders'),
-          axios.get('http://localhost:5000/api/user'),
-          axios.get('http://localhost:5000/api/complaint')
+          axios.get('/api/product'),
+          axios.get('/api/category'),
+          axios.get('/api/order/orders'),
+          axios.get('/api/user'),
+          axios.get('/api/complaint')
         ])
 
         setStats({

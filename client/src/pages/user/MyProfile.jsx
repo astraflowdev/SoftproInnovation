@@ -15,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/user/${userId}`)
+        const res = await axios.get(`/api/user/${userId}`)
         const data = res.data.data
         setUser(data)
         setForm({ name: data.name || '', email: data.email || '', mobile: data.mobile || '' })
@@ -43,7 +43,7 @@ const Profile = () => {
 
     setSaving(true)
     try {
-      const res = await axios.patch(`http://localhost:5000/api/user/${userId}`, {
+      const res = await axios.patch(`/api/user/${userId}`, {
         name:   form.name,
         email:  form.email,
         mobile: form.mobile,

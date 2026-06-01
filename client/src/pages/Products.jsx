@@ -19,7 +19,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/product/')
+        const res = await axios.get('/api/product/')
         const data = res.data.data || []
         setProducts(data)
         const uniqueCats = ['All', ...new Set(data.map(p => p.category?.category || p.category).filter(Boolean))]
@@ -63,7 +63,7 @@ const Products = () => {
     if (!p.images) return null
     if (p.images.startsWith('http')) return p.images
     const filename = p.images.replace(/\\/g, '/').split('/').pop()
-    return `http://localhost:5000/api/product/${filename}`
+    return `/api/product/${filename}`
   }
 
   return (

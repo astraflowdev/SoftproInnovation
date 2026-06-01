@@ -31,7 +31,7 @@ const Complaint = () => {
   const fetchComplaints = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('http://localhost:5000/api/complaint')
+      const res = await axios.get('/api/complaint')
       setComplaints(res.data.data || [])
     } catch (err) {
       console.error(err)
@@ -47,7 +47,7 @@ const Complaint = () => {
     if (!reply.trim()) return
     setSending(true)
     try {
-      await axios.patch(`http://localhost:5000/api/complaint/reply/${selected._id}`, { reply })
+      await axios.patch(`/api/complaint/reply/${selected._id}`, { reply })
       setComplaints(prev => prev.map(c =>
         c._id === selected._id ? { ...c, reply, status: 'replied' } : c
       ))
@@ -64,7 +64,7 @@ const Complaint = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this complaint?')) return
     try {
-      await axios.delete(`http://localhost:5000/api/complaint/${id}`)
+      await axios.delete(`/api/complaint/${id}`)
       setComplaints(prev => prev.filter(c => c._id !== id))
       if (selected?._id === id) setSelected(null)
     } catch (err) {

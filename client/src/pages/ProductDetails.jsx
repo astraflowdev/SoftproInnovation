@@ -19,7 +19,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/product/details/${id}`)
+        const res = await axios.get(`/api/product/details/${id}`)
         setData(res.data.data)
       } catch (err) {
         console.error(err)
@@ -35,7 +35,7 @@ const ProductDetails = () => {
     if (!img) return null
     if (img.startsWith('http')) return img
     const filename = img.replace(/\\/g, '/').split('/').pop()
-    return `http://localhost:5000/api/product/${filename}`
+    return `/api/product/${filename}`
   }
 
   /* ── Discounted price ── */
@@ -54,7 +54,7 @@ const ProductDetails = () => {
     setAdding(true)
     setCartMsg('')
     try {
-      const res = await axios.post('http://localhost:5000/api/cart', {
+      const res = await axios.post('/api/cart', {
         userId,
         productId: id,
       })

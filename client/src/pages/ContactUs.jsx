@@ -24,7 +24,7 @@ const handleSubmit = async (e) => {
   e.preventDefault()
   setLoading(true)
   try {
-    const res = await axios.post('http://localhost:5000/api/complaint', formData)
+    const res = await axios.post('/api/complaint', formData)
     if (res.data.msg === 'Message sent successfully') {
       setSuccess(true)
       setFormData({ name: '', email: '', subject: '', category: '', message: '' })

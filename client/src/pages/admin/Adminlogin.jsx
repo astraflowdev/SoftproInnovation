@@ -54,7 +54,7 @@ const Adminlogin = () => {
     setLoading(true)
     setError('')
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/login', formData)
+      const res = await axios.post('/api/admin/login', formData)
       if (res.data.msg === 'Login Successfully') {
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('role', 'Admin')

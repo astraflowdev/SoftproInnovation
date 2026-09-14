@@ -10,7 +10,7 @@ const Users = () => {
   const fetchUsers = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('http://localhost:5000/api/user')
+      const res = await axios.get('/api/user')
       setUsers(res.data.data || [])
     } catch (err) {
       console.error('Error fetching users:', err)
@@ -29,7 +29,7 @@ const Users = () => {
     }
     setDeletingId(id)
     try {
-      const res = await axios.delete(`http://localhost:5000/api/user/${id}`)
+      const res = await axios.delete(`/api/user/${id}`)
       alert(res.data.msg || 'User deleted successfully.')
       setUsers(prev => prev.filter(u => u._id !== id))
     } catch (err) {

@@ -50,7 +50,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('http://localhost:5000/api/order/orders')
+      const res = await axios.get('/api/order/orders')
       setOrders(res.data.data || [])
     } catch (err) {
       console.error(err)
@@ -77,7 +77,7 @@ const Orders = () => {
         orderStatus: newStatus,
         ...(isCoD && newStatus === 'delivered' ? { paymentStatus: 'completed' } : {}),
       }
-      await axios.patch(`http://localhost:5000/api/order/status/${orderId}`, body)
+      await axios.patch(`/api/order/status/${orderId}`, body)
       setOrders(prev => prev.map(o =>
         o._id === orderId
           ? { ...o, orderStatus: newStatus, ...(isCoD && newStatus === 'delivered' ? { paymentStatus: 'completed' } : {}) }
@@ -94,7 +94,7 @@ const Orders = () => {
     if (!window.confirm('Cancel this order?')) return
     setUpdating(orderId)
     try {
-      await axios.patch(`http://localhost:5000/api/order/status/${orderId}`, {
+      await axios.patch(`/api/order/status/${orderId}`, {
         orderStatus: 'cancelled',
       })
       setOrders(prev => prev.map(o =>

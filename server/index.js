@@ -56,7 +56,7 @@ app.use("/api/payment", require("./routes/paymentRoute"));
 
 
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, '127.0.0.1', () => {
     console.log("Server started successfully");
 
 })

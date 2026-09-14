@@ -2,6 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+/*
+ * Product images are served by Express, which mounts `express.static('./uploads')`
+ * at `/api/` — so the URL is `/api/product/<filename>`, NOT the stored value.
+ * Mongo stores the path *including* its `uploads/` prefix (e.g.
+ * "uploads/product/foo.png"), so interpolating it after another `/uploads/`
+ * produced `/uploads/uploads/product/foo.png`, which nginx answered with the SPA
+ * fallback — 200 text/html, never an image. The onError handler then hid the
+ * element, so the cart showed no thumbnails and no broken-image icon either.
+ *
+ * Same helper as Products.jsx / Home.jsx / CategoryDetails.jsx: keep the filename
+ * only, and tolerate an absolute URL in case a record ever carries one.
+ */
+const getProductImage = (p) => {
+  if (!p?.images) return null
+  if (p.images.startsWith('http')) return p.images
+  const filename = p.images.replace(/\\/g, '/').split('/').pop()
+  return `/api/product/${filename}`
+}
+
 const Cart = () => {
   const userId   = localStorage.getItem('id')
   const navigate = useNavigate()
@@ -12,7 +31,7 @@ const Cart = () => {
   /* ── Fetch cart ── */
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/cart/${userId}`)
+      const res = await axios.get(`/api/cart/${userId}`)
       setItems(res.data.data || [])
     } catch (err) {
       console.error(err)
@@ -27,7 +46,7 @@ const Cart = () => {
   const handleIncrease = async (cartId) => {
     setUpdating(cartId)
     try {
-      const res = await axios.patch(`http://localhost:5000/api/cart/quantity/increase/${cartId}`)
+      const res = await axios.patch(`/api/cart/quantity/increase/${cartId}`)
       if (res.data.msg === 'ONLY 5 QUANTITY ALLOWED') {
         alert('Maximum 5 quantity allowed!')
       } else {
@@ -48,7 +67,7 @@ const Cart = () => {
   const handleDecrease = async (cartId) => {
     setUpdating(cartId)
     try {
-      const res = await axios.patch(`http://localhost:5000/api/cart/quantity/decrease/${cartId}`)
+      const res = await axios.patch(`/api/cart/quantity/decrease/${cartId}`)
       if (!res.data.msg.includes('not less than 1')) {
         const updatedQty = res.data.data?.quantity
         if (updatedQty !== undefined) {
@@ -67,7 +86,7 @@ const Cart = () => {
   const handleRemove = async (cartId) => {
     setUpdating(cartId)
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${cartId}`)
+      await axios.delete(`/api/cart/${cartId}`)
       setItems(prev => prev.filter(item => item._id !== cartId))
     } catch (err) { console.error(err) }
     finally { setUpdating(null) }
@@ -139,7 +158,7 @@ const Cart = () => {
                     <div className="cart-item-img">
                       {product.images ? (
                         <img
-                          src={`http://localhost:5000/uploads/${product.images}`}
+                          src={getProductImage(product)}
                           alt={product.name}
                           onError={e => { e.currentTarget.style.display = 'none' }}
                         />

@@ -40,7 +40,7 @@ const Address = () => {
   /* ── Fetch addresses ── */
   const fetchAddresses = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/address/${userId}`)
+      const res = await axios.get(`/api/address/${userId}`)
       const data = res.data.data || []
       setAddresses(data)
       if (data.length > 0) setSelected(data[0]._id)
@@ -63,7 +63,7 @@ const Address = () => {
     setSaving(true)
     setAlert(null)
     try {
-      await axios.post('http://localhost:5000/api/address', {
+      await axios.post('/api/address', {
         userId,
         houseNo: form.houseNo,
         pincode: form.pincode,
@@ -85,7 +85,7 @@ const Address = () => {
   const handleDelete = async (addrId) => {
     setDeleting(addrId)
     try {
-      await axios.delete(`http://localhost:5000/api/address/${addrId}`)
+      await axios.delete(`/api/address/${addrId}`)
       const updated = addresses.filter(a => a._id !== addrId)
       setAddresses(updated)
       if (selected === addrId) setSelected(updated[0]?._id || null)
@@ -115,7 +115,7 @@ const Address = () => {
 
       const orderResponse =
         await axios.post(
-          "http://localhost:5000/api/payment/create-order",
+          "/api/payment/create-order",
           {
             userId
           }
@@ -141,7 +141,7 @@ const Address = () => {
 
           const verify =
             await axios.post(
-              "http://localhost:5000/api/payment/verify",
+              "/api/payment/verify",
               {
                 ...response,
                 userId,
@@ -213,7 +213,7 @@ const Address = () => {
     try {
 
       const res = await axios.post(
-        "http://localhost:5000/api/order/order/cart",
+        "/api/order/order/cart",
         {
           userId,
           paymentMethod,

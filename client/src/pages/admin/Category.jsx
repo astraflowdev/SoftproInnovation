@@ -6,7 +6,7 @@ const Category = () => {
     const [data, setData] = useState([])
     const handlefeatch = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/category')
+            const res = await axios.get('/api/category')
             console.log(res.data);
             setData(res.data.data)
         }
@@ -23,7 +23,7 @@ const Category = () => {
 
     const handleDelete = async(id)=>{
         try{
-            const res = await axios.delete(`http://localhost:5000/api/category/${id}`);
+            const res = await axios.delete(`/api/category/${id}`);
             alert(res.data.msg)
             handlefeatch();
         }

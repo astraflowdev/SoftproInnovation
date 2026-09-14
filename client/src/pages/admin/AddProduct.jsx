@@ -43,7 +43,7 @@ const AddProduct = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/category")
+      const res = await axios.get("/api/category")
       setCategoryList(res.data.data || [])
     } catch (err) {
       console.error("Error fetching categories:", err)
@@ -52,7 +52,7 @@ const AddProduct = () => {
 
   const fetchProductDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/product/details/${id}`)
+      const res = await axios.get(`/api/product/details/${id}`)
       const p = res.data.data
       if (p) {
         setData({
@@ -107,12 +107,12 @@ const AddProduct = () => {
 
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:5000/api/product/${id}`, formData, {
+        await axios.put(`/api/product/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         alert("Product updated successfully")
       } else {
-        await axios.post("http://localhost:5000/api/product", formData, {
+        await axios.post("/api/product", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         alert("Product added successfully")

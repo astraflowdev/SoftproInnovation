@@ -18,7 +18,7 @@ const AddCategory = () => {
       setIsEdit(true)
       const fetchCategory = async () => {
         try {
-          const res = await axios.get('http://localhost:5000/api/category')
+          const res = await axios.get('/api/category')
           const found = res.data.data?.find(c => c._id === id)
           if (found) {
             setData({
@@ -57,12 +57,12 @@ const AddCategory = () => {
 
     try {
       if (isEdit) {
-        await axios.put(`http://localhost:5000/api/category/${id}`, formData, {
+        await axios.put(`/api/category/${id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
         alert('Category updated successfully')
       } else {
-        await axios.post('http://localhost:5000/api/category', formData, {
+        await axios.post('/api/category', formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
         alert('Category added successfully')

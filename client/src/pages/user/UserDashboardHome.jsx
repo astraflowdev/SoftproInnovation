@@ -37,8 +37,8 @@ const UserDashboardHome = () => {
     const fetchAll = async () => {
       try {
         const [userRes, orderRes] = await Promise.all([
-          axios.get(`http://localhost:5000/api/user/${userId}`),
-          axios.get(`http://localhost:5000/api/order/user/${userId}`),
+          axios.get(`/api/user/${userId}`),
+          axios.get(`/api/order/user/${userId}`),
         ])
         setUser(userRes.data.data)
         setOrders(orderRes.data.data || [])

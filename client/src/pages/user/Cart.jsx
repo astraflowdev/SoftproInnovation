@@ -2,6 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+/*
+ * Product images are served by Express, which mounts `express.static('./uploads')`
+ * at `/api/` — so the URL is `/api/product/<filename>`, NOT the stored value.
+ * Mongo stores the path *including* its `uploads/` prefix (e.g.
+ * "uploads/product/foo.png"), so interpolating it after another `/uploads/`
+ * produced `/uploads/uploads/product/foo.png`, which nginx answered with the SPA
+ * fallback — 200 text/html, never an image. The onError handler then hid the
+ * element, so the cart showed no thumbnails and no broken-image icon either.
+ *
+ * Same helper as Products.jsx / Home.jsx / CategoryDetails.jsx: keep the filename
+ * only, and tolerate an absolute URL in case a record ever carries one.
+ */
+const getProductImage = (p) => {
+  if (!p?.images) return null
+  if (p.images.startsWith('http')) return p.images
+  const filename = p.images.replace(/\\/g, '/').split('/').pop()
+  return `/api/product/${filename}`
+}
+
 const Cart = () => {
   const userId   = localStorage.getItem('id')
   const navigate = useNavigate()
@@ -139,7 +158,7 @@ const Cart = () => {
                     <div className="cart-item-img">
                       {product.images ? (
                         <img
-                          src={`/uploads/${product.images}`}
+                          src={getProductImage(product)}
                           alt={product.name}
                           onError={e => { e.currentTarget.style.display = 'none' }}
                         />
